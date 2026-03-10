@@ -1,0 +1,26 @@
+name: universal_file_previewer
+description: Preview 50+ file formats (PDF, images, video, audio, code, zip, markdown, CSV, JSON and more) with zero heavy dependencies. Uses pure Dart + native platform channels.
+version: 0.0.1
+homepage: https://github.com/Naimish-Kumar/universal_file_previewer
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.universal_file_previewer
+        pluginClass: FilePreviewerPlugin
+      ios:
+        pluginClass: FilePreviewerPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
