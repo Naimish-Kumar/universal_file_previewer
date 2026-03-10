@@ -1,0 +1,53 @@
+# https://dart.dev/guides/libraries/private-files
+# Created by https://www.toptal.com/developers/gitignore/api/flutter,dart,android,ios,visualstudiocode,windows
+
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+pubspec.lock
+
+# Android
+.gradle/
+local.properties
+*.keystore
+*.jks
+project.properties
+Captures/
+**/android/app/debug/
+**/android/app/release/
+
+# iOS
+.generated/
+DerivedData/
+*.moved-aside
+*.spec
+*.ipa
+*.closure
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/App.framework
+**/ios/Flutter/App.podspec
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.[h|m]
+**/ios/Runner/GeneratedPluginRegistrant.swift
+**/Podfile.lock
+**/Pods/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.URL
+*.log
+*.bak
+*.swp

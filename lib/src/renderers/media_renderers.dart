@@ -86,7 +86,7 @@ class _VideoRendererState extends State<VideoRenderer> {
                   width: 72,
                   height: 72,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.play_arrow,
@@ -214,7 +214,7 @@ class _AudioRendererState extends State<AudioRenderer>
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF6C63FF).withOpacity(0.4),
+                      color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -230,7 +230,7 @@ class _AudioRendererState extends State<AudioRenderer>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(ext,
@@ -370,7 +370,7 @@ class _WaveformWidget extends StatelessWidget {
             height: h,
             margin: const EdgeInsets.symmetric(horizontal: 1),
             decoration: BoxDecoration(
-              color: const Color(0xFF6C63FF).withOpacity(0.7 + 0.3 * base),
+              color: const Color(0xFF6C63FF).withValues(alpha: 0.7 + 0.3 * base),
               borderRadius: BorderRadius.circular(2),
             ),
           );

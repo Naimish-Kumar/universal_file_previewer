@@ -1,0 +1,12 @@
+# Exclude documentation source files
+universal_file_previewer_docs.docx
+
+# Exclude IDE files
+.idea/
+.vscode/
+
+# Exclude build artifacts
+build/
+.dart_tool/
+.packages
+pubspec.lock

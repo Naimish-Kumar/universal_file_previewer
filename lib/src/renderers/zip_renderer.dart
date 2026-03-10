@@ -175,7 +175,7 @@ class _ZipRendererState extends State<ZipRenderer> {
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: _colorFor(entry).withOpacity(0.12),
+                          color: _colorFor(entry).withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(

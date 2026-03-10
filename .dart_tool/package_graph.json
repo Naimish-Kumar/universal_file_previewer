@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "universal_file_previewer",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "dependencies": [
         "flutter"
       ],

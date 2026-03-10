@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
           return Card(
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: s.color.withOpacity(0.15),
+                backgroundColor: s.color.withValues(alpha: 0.15),
                 child: Icon(s.icon, color: s.color),
               ),
               title: Text(s.fileName),

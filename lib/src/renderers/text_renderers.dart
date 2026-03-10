@@ -138,7 +138,7 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
             border: const Border(
               left: BorderSide(color: Colors.blue, width: 4),
             ),
-            color: Colors.blue.withOpacity(0.07),
+            color: Colors.blue.withValues(alpha: 0.07),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(node.text,
