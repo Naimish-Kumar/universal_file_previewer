@@ -28,15 +28,22 @@ class _FallbackRendererState extends State<FallbackRenderer> {
   void initState() {
     super.initState();
     widget.file.stat().then((s) {
-      if (mounted) setState(() => _stat = s);
+      if (mounted) {
+        setState(() => _stat = s);
+      }
     });
   }
 
   String _formatSize(int bytes) {
-    if (bytes < 1024) return '$bytes B';
-    if (bytes < 1048576) return '${(bytes / 1024).toStringAsFixed(2)} KB';
-    if (bytes < 1073741824)
+    if (bytes < 1024) {
+      return '$bytes B';
+    }
+    if (bytes < 1048576) {
+      return '${(bytes / 1024).toStringAsFixed(2)} KB';
+    }
+    if (bytes < 1073741824) {
       return '${(bytes / 1048576).toStringAsFixed(2)} MB';
+    }
     return '${(bytes / 1073741824).toStringAsFixed(2)} GB';
   }
 

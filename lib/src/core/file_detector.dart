@@ -117,7 +117,9 @@ class FileDetector {
       if (type == FileType.webp) {
         return _resolveRiffFormat(header);
       }
-      if (type != FileType.unknown) return type;
+      if (type != FileType.unknown) {
+        return type;
+      }
     } catch (_) {}
 
     return _detectByExtension(file.path);
@@ -127,7 +129,9 @@ class FileDetector {
   static FileType detectFromBytes(Uint8List bytes, {String? fileName}) {
     final type = _detectFromBytes(bytes.toList());
     if (type != FileType.unknown) return type;
-    if (fileName != null) return _detectByExtension(fileName);
+    if (fileName != null) {
+      return _detectByExtension(fileName);
+    }
     return FileType.unknown;
   }
 
@@ -141,7 +145,9 @@ class FileDetector {
     // SVG starts with <?xml or <svg
     final head = String.fromCharCodes(bytes.take(32).toList());
     if (head.contains('<svg') || head.contains('<?xml')) {
-      if (head.contains('svg')) return FileType.svg;
+      if (head.contains('svg')) {
+        return FileType.svg;
+      }
       return FileType.xml;
     }
 

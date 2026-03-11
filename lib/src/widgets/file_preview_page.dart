@@ -71,25 +71,35 @@ class _FilePreviewPageState extends State<FilePreviewPage> {
 
   @override
   void dispose() {
-    if (widget.controller == null) _controller.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
   String get _displayTitle {
-    if (widget.title != null) return widget.title!;
+    if (widget.title != null) {
+      return widget.title!;
+    }
     final name = widget.file.path.split('/').last;
     return name.length > 30 ? '...${name.substring(name.length - 28)}' : name;
   }
 
   String _formatSize(int bytes) {
-    if (bytes < 1024) return '$bytes B';
-    if (bytes < 1048576) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    if (bytes < 1024) {
+      return '$bytes B';
+    }
+    if (bytes < 1048576) {
+      return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    }
     return '${(bytes / 1048576).toStringAsFixed(1)} MB';
   }
 
   void _showInfo() async {
     final stat = await widget.file.stat();
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(

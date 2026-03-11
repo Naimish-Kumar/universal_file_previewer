@@ -64,7 +64,9 @@ class _ZipRendererState extends State<ZipRenderer> {
 
   String _formatSize(int bytes) {
     if (bytes == 0) return '—';
-    if (bytes < 1024) return '${bytes} B';
+    if (bytes < 1024) {
+      return '$bytes B';
+    }
     if (bytes < 1048576) return '${(bytes / 1024).toStringAsFixed(1)} KB';
     if (bytes < 1073741824) return '${(bytes / 1048576).toStringAsFixed(1)} MB';
     return '${(bytes / 1073741824).toStringAsFixed(1)} GB';

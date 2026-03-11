@@ -75,12 +75,16 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
   Future<void> _load() async {
     final text = await widget.file.readAsString();
     final nodes = MarkdownParser.parse(text);
-    if (mounted) setState(() => _nodes = nodes);
+    if (mounted) {
+      setState(() => _nodes = nodes);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_nodes == null) return const Center(child: CircularProgressIndicator());
+    if (_nodes == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -248,7 +252,9 @@ class _JsonRendererState extends State<JsonRenderer> {
     try {
       final text = await widget.file.readAsString();
       final data = jsonDecode(text);
-      if (mounted) setState(() => _data = data);
+      if (mounted) {
+        setState(() => _data = data);
+      }
     } catch (e) {
       if (mounted) setState(() => _error = e.toString());
     }
@@ -259,7 +265,9 @@ class _JsonRendererState extends State<JsonRenderer> {
     if (_error != null) {
       return Center(child: Text('Invalid JSON: $_error'));
     }
-    if (_data == null) return const Center(child: CircularProgressIndicator());
+    if (_data == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -295,8 +303,12 @@ class _JsonNodeState extends State<_JsonNode> {
   Widget build(BuildContext context) {
     final val = widget.value;
 
-    if (val is Map) return _buildMap(val);
-    if (val is List) return _buildList(val);
+    if (val is Map) {
+      return _buildMap(val);
+    }
+    if (val is List) {
+      return _buildList(val);
+    }
     return _buildPrimitive(val);
   }
 
@@ -431,9 +443,13 @@ class _CsvRendererState extends State<CsvRenderer> {
         // Basic CSV parsing — handles quoted fields
         return _parseCsvLine(line);
       }).toList();
-      if (mounted) setState(() => _rows = rows);
+      if (mounted) {
+        setState(() => _rows = rows);
+      }
     } catch (e) {
-      if (mounted) setState(() => _error = e.toString());
+      if (mounted) {
+        setState(() => _error = e.toString());
+      }
     }
   }
 
@@ -459,8 +475,12 @@ class _CsvRendererState extends State<CsvRenderer> {
 
   @override
   Widget build(BuildContext context) {
-    if (_error != null) return Center(child: Text('CSV Error: $_error'));
-    if (_rows == null) return const Center(child: CircularProgressIndicator());
+    if (_error != null) {
+      return Center(child: Text('CSV Error: $_error'));
+    }
+    if (_rows == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     final headers = _rows!.isNotEmpty ? _rows![0] : [];
     final dataRows = _rows!.length > 1 ? _rows!.sublist(1) : [];
@@ -549,9 +569,16 @@ class _CodeRendererState extends State<CodeRenderer> {
       final ext = widget.file.path.split('.').last.toLowerCase();
       final spans =
           SyntaxTokenizer.tokenize(code, ext, widget.config.codeTheme);
-      if (mounted) setState(() { _code = code; _spans = spans; });
+      if (mounted) {
+        setState(() {
+          _code = code;
+          _spans = spans;
+        });
+      }
     } catch (e) {
-      if (mounted) setState(() => _code = 'Error loading file: $e');
+      if (mounted) {
+        setState(() => _code = 'Error loading file: $e');
+      }
     }
   }
 

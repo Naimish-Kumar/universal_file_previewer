@@ -54,7 +54,9 @@ class ZipParser {
       final fileNameLen      = _readUint16(bytes, offset + 26);
       final extraFieldLen    = _readUint16(bytes, offset + 28);
 
-      if (offset + _headerSize + fileNameLen > bytes.length) break;
+      if (offset + _headerSize + fileNameLen > bytes.length) {
+        break;
+      }
 
       final nameBytes = bytes.sublist(
         offset + _headerSize,
@@ -135,7 +137,9 @@ class ZipEntry {
   /// Parent directory path
   String get parentPath {
     final parts = name.split('/').where((s) => s.isNotEmpty).toList();
-    if (parts.length <= 1) return '';
+    if (parts.length <= 1) {
+      return '';
+    }
     return parts.take(parts.length - 1).join('/');
   }
 

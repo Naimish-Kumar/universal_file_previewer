@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   // Sample files for demonstration
-  static final _samples = [
+  static const _samples = [
     _Sample('README.md', 'Markdown', Icons.article, Colors.blue),
     _Sample('data.json', 'JSON Tree', Icons.data_object, Colors.teal),
     _Sample('report.pdf', 'PDF', Icons.picture_as_pdf, Colors.red),

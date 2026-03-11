@@ -5,9 +5,10 @@
   "packages": [
     {
       "name": "universal_file_previewer",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": [
-        "flutter"
+        "flutter",
+        "flutter_web_plugins"
       ],
       "devDependencies": [
         "flutter_lints",
@@ -37,6 +38,13 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter"
       ]
     },
     {

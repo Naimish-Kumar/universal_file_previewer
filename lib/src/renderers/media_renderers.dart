@@ -45,7 +45,9 @@ class _VideoRendererState extends State<VideoRenderer> {
         });
       }
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
   }
 
@@ -59,7 +61,9 @@ class _VideoRendererState extends State<VideoRenderer> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) return const Center(child: CircularProgressIndicator());
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Container(
       color: Colors.black,

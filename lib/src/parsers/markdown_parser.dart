@@ -154,10 +154,10 @@ class MarkdownNode {
       MarkdownNode._(type: NodeType.codeBlock, text: text, lang: lang);
 
   factory MarkdownNode.divider() =>
-      MarkdownNode._(type: NodeType.divider);
+      const MarkdownNode._(type: NodeType.divider);
 
   factory MarkdownNode.spacer() =>
-      MarkdownNode._(type: NodeType.spacer);
+      const MarkdownNode._(type: NodeType.spacer);
 }
 
 enum InlineType { plain, bold, italic, code, link }
