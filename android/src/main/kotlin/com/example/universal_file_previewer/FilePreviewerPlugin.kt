@@ -21,6 +21,11 @@ class FilePreviewerPlugin : FlutterPlugin, MethodCallHandler {
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(binding.binaryMessenger, "universal_file_previewer")
         channel.setMethodCallHandler(this)
+
+        binding.platformViewRegistry.registerViewFactory(
+            "universal_file_previewer_video_view",
+            VideoViewFactory(binding.binaryMessenger)
+        )
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {

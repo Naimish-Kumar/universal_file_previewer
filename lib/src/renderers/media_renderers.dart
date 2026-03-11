@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../core/preview_config.dart';
 import '../platform/platform_channel.dart';
+import '../widgets/native_video_player.dart';
+import '../widgets/video_player_controller.dart';
 
 // ─────────────────────────────────────────────────────────
 // Video Renderer
 // ─────────────────────────────────────────────────────────
 
-/// Shows a video thumbnail with metadata.
-/// Full playback requires integrating with native video player
-/// via the platform channel.
+/// Shows a video with native playback and custom controls.
 class VideoRenderer extends StatefulWidget {
   final File file;
   final PreviewConfig config;
@@ -23,128 +24,267 @@ class VideoRenderer extends StatefulWidget {
 
 class _VideoRendererState extends State<VideoRenderer> {
   Uint8List? _thumbnail;
-  Map<String, dynamic>? _info;
-  bool _loading = true;
+  NativeVideoController? _controller;
+  bool _showControls = true;
+  Timer? _hideTimer;
+  bool _initialized = false;
+  bool _isSeeking = false;
+  double _seekValue = 0;
 
   @override
   void initState() {
     super.initState();
-    _load();
+    _loadThumbnail();
+    _startHideTimer();
   }
 
-  Future<void> _load() async {
+  @override
+  void dispose() {
+    _hideTimer?.cancel();
+    _controller?.removeListener(_onControllerUpdate);
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadThumbnail() async {
     try {
       final thumb =
           await FilePreviewerChannel.generateVideoThumbnail(widget.file.path);
-      final info = await FilePreviewerChannel.getVideoInfo(widget.file.path);
-      if (mounted) {
+      if (mounted && thumb != null) {
         setState(() {
           _thumbnail = thumb;
-          _info = info;
-          _loading = false;
         });
       }
     } catch (_) {
-      if (mounted) {
-        setState(() => _loading = false);
-      }
+      // Thumbnail generation is best-effort; the native player will still work.
     }
   }
 
-  String _formatDuration(int ms) {
-    final d = Duration(milliseconds: ms);
-    final h = d.inHours;
-    final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final s = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+  void _startHideTimer() {
+    _hideTimer?.cancel();
+    _hideTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted && _controller?.isPlaying == true) {
+        setState(() => _showControls = false);
+      }
+    });
+  }
+
+  void _toggleControls() {
+    setState(() {
+      _showControls = !_showControls;
+    });
+    if (_showControls) {
+      _startHideTimer();
+    }
+  }
+
+  void _onControllerUpdate() {
+    if (!mounted) return;
+    if (!_initialized && _controller!.isInitialized) {
+      _initialized = true;
+    }
+    // Don't update slider position while user is actively seeking
+    if (!_isSeeking) {
+      setState(() {});
+    }
+  }
+
+  String _formatDuration(Duration duration) {
+    final h = duration.inHours;
+    final m = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final s = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
     return h > 0 ? '$h:$m:$s' : '$m:$s';
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return GestureDetector(
+      onTap: _toggleControls,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        color: Colors.black,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Native Player
+            Positioned.fill(
+              child: NativeVideoPlayer(
+                path: widget.file.path,
+                onCreated: (controller) {
+                  _controller = controller;
+                  _controller!.addListener(_onControllerUpdate);
+                  setState(() {});
+                },
+              ),
+            ),
+
+            // Thumbnail placeholder (shows while native view is loading)
+            if (!_initialized && _thumbnail != null)
+              Positioned.fill(
+                child: Image.memory(
+                  _thumbnail!,
+                  fit: BoxFit.contain,
+                ),
+              ),
+
+            // Loading indicator
+            if (!_initialized && _controller?.error == null)
+              const Center(
+                child: CircularProgressIndicator(color: Colors.white70),
+              ),
+
+            // Error state
+            if (_controller?.error != null)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.error_outline,
+                          color: Colors.redAccent, size: 48),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Playback Error',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        _controller!.error!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white70, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+            // Controls Overlay
+            if (_initialized &&
+                _controller?.error == null &&
+                (_showControls || _controller?.isPlaying != true))
+              _buildControlsOverlay(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildControlsOverlay() {
+    final isPlaying = _controller?.isPlaying ?? false;
+    final duration = _controller?.duration ?? Duration.zero;
+    final position = _controller?.position ?? Duration.zero;
+
+    // Clamp position to not exceed duration
+    final clampedPositionMs = position.inMilliseconds
+        .clamp(0, duration.inMilliseconds > 0 ? duration.inMilliseconds : 1);
+    final maxMs =
+        duration.inMilliseconds > 0 ? duration.inMilliseconds.toDouble() : 1.0;
 
     return Container(
-      color: Colors.black,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black.withValues(alpha: 0.3),
+            Colors.transparent,
+            Colors.transparent,
+            Colors.black.withValues(alpha: 0.7),
+          ],
+          stops: const [0.0, 0.3, 0.6, 1.0],
+        ),
+      ),
       child: Column(
         children: [
-          // Thumbnail / play area
-          Expanded(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (_thumbnail != null)
-                  SizedBox.expand(
-                    child: Image.memory(
-                      _thumbnail!,
-                      fit: BoxFit.contain,
-                    ),
-                  )
-                else
-                  const Center(
-                    child: Icon(Icons.videocam, size: 80, color: Colors.grey),
-                  ),
-                // Play button overlay
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.6),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.play_arrow,
-                      color: Colors.white, size: 42),
-                ),
-              ],
+          const Spacer(),
+          // Play/Pause button
+          GestureDetector(
+            onTap: () {
+              if (isPlaying) {
+                _controller?.pause();
+              } else {
+                _controller?.play();
+                _startHideTimer();
+              }
+            },
+            child: Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.5),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                isPlaying ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+                size: 36,
+              ),
             ),
           ),
-
-          // Info bar
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: Colors.grey[900],
+          const Spacer(),
+          // Bottom controls bar
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  widget.file.path.split('/').last,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
+                // Seek bar
+                SliderTheme(
+                  data: const SliderThemeData(
+                    trackHeight: 2,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 14),
+                    activeTrackColor: Colors.white,
+                    inactiveTrackColor: Colors.white24,
+                    thumbColor: Colors.white,
+                  ),
+                  child: Slider(
+                    value: _isSeeking
+                        ? _seekValue
+                        : clampedPositionMs.toDouble(),
+                    min: 0,
+                    max: maxMs,
+                    onChangeStart: (v) {
+                      _isSeeking = true;
+                      _seekValue = v;
+                    },
+                    onChanged: (v) {
+                      setState(() {
+                        _seekValue = v;
+                      });
+                    },
+                    onChangeEnd: (v) {
+                      _isSeeking = false;
+                      _controller?.seekTo(Duration(milliseconds: v.toInt()));
+                      _startHideTimer();
+                    },
+                  ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    if (_info?['duration'] != null) ...[
-                      const Icon(Icons.access_time,
-                          size: 14, color: Colors.grey),
-                      const SizedBox(width: 4),
+                // Time labels
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Row(
+                    children: [
                       Text(
-                        _formatDuration(_info!['duration'] as int),
-                        style: const TextStyle(color: Colors.grey),
+                        _isSeeking
+                            ? _formatDuration(
+                                Duration(milliseconds: _seekValue.toInt()))
+                            : _formatDuration(position),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
                       ),
-                      const SizedBox(width: 16),
-                    ],
-                    if (_info?['width'] != null &&
-                        _info?['height'] != null) ...[
-                      const Icon(Icons.aspect_ratio,
-                          size: 14, color: Colors.grey),
-                      const SizedBox(width: 4),
+                      const Spacer(),
                       Text(
-                        '${_info!['width']}×${_info!['height']}',
-                        style: const TextStyle(color: Colors.grey),
+                        _formatDuration(duration),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Native video playback is handled via platform channel.\nIntegrate with your preferred video player plugin.',
-                  style: TextStyle(
-                      color: Colors.grey[600], fontSize: 11, height: 1.4),
+                  ),
                 ),
               ],
             ),

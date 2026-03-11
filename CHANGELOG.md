@@ -1,3 +1,8 @@
+## 0.3.0
+
+* **URL Support**: Directly preview files from a URL in `FilePreviewWidget` and `FilePreviewPage`.
+* **Automatic Downloading**: Added internal handling for remote files using `http` and `path_provider`.
+
 ## 0.2.0
 
 * **Multi-Platform Support**: Added infrastructure for Web, macOS, Windows, and Linux.

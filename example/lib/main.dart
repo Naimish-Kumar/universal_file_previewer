@@ -30,10 +30,12 @@ class HomePage extends StatelessWidget {
     _Sample('data.json', 'JSON Tree', Icons.data_object, Colors.teal),
     _Sample('report.pdf', 'PDF', Icons.picture_as_pdf, Colors.red),
     _Sample('photo.jpg', 'Image', Icons.image, Colors.purple),
+    _Sample('https://raw.githubusercontent.com/Naimish-Kumar/universal_file_previewer/main/README.md', 'Remote Markdown', Icons.cloud_download, Colors.orange, isRemote: true),
     _Sample('archive.zip', 'ZIP Browser', Icons.folder_zip, Colors.brown),
     _Sample('main.dart', 'Code (Dart)', Icons.code, Colors.indigo),
     _Sample('data.csv', 'CSV Table', Icons.table_chart, Colors.green),
     _Sample('video.mp4', 'Video', Icons.videocam, Colors.orange),
+    _Sample('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4', 'Remote Video', Icons.video_library, Colors.red, isRemote: true),
     _Sample('song.mp3', 'Audio', Icons.audiotrack, Colors.pink),
     _Sample('unknown.xyz', 'Unknown File', Icons.help_outline, Colors.grey),
   ];
@@ -57,7 +59,7 @@ class HomePage extends StatelessWidget {
                 backgroundColor: s.color.withValues(alpha: 0.15),
                 child: Icon(s.icon, color: s.color),
               ),
-              title: Text(s.fileName),
+              title: Text(s.isRemote ? 'Remote File' : s.fileName),
               subtitle: Text(s.label),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _openPreview(ctx, s),
@@ -69,20 +71,33 @@ class HomePage extends StatelessWidget {
   }
 
   void _openPreview(BuildContext context, _Sample sample) {
-    // In a real app, use file_picker or path_provider to get real files.
-    // Here we use a dummy path for illustration.
-    final file = File('/tmp/${sample.fileName}');
+    if (sample.isRemote) {
+      FilePreviewPage.open(
+        context,
+        url: sample.fileName,
+        config: const PreviewConfig(
+          showToolbar: true,
+          showFileInfo: true,
+          enableZoom: true,
+          codeTheme: CodeTheme.dark,
+        ),
+      );
+    } else {
+      // In a real app, use file_picker or path_provider to get real files.
+      // Here we use a dummy path for illustration.
+      final file = File('/tmp/${sample.fileName}');
 
-    FilePreviewPage.open(
-      context,
-      file: file,
-      config: const PreviewConfig(
-        showToolbar: true,
-        showFileInfo: true,
-        enableZoom: true,
-        codeTheme: CodeTheme.dark,
-      ),
-    );
+      FilePreviewPage.open(
+        context,
+        file: file,
+        config: const PreviewConfig(
+          showToolbar: true,
+          showFileInfo: true,
+          enableZoom: true,
+          codeTheme: CodeTheme.dark,
+        ),
+      );
+    }
   }
 }
 
@@ -113,6 +128,8 @@ class _Sample {
   final String label;
   final IconData icon;
   final Color color;
+  final bool isRemote;
 
-  const _Sample(this.fileName, this.label, this.icon, this.color);
+  const _Sample(this.fileName, this.label, this.icon, this.color,
+      {this.isRemote = false});
 }

@@ -29,7 +29,7 @@ Uses pure Dart for text-based formats and native platform channels for PDF, vide
 
 ```yaml
 dependencies:
-  universal_file_previewer: ^0.1.0
+  universal_file_previewer: ^0.3.0
 ```
 
 ---
@@ -41,22 +41,21 @@ dependencies:
 ```dart
 import 'package:universal_file_previewer/universal_file_previewer.dart';
 
-// One line — opens full-screen preview with toolbar
+// From local file
 FilePreviewPage.open(context, file: File('/path/to/document.pdf'));
+
+// From URL (automatically downloaded and cached)
+FilePreviewPage.open(context, url: 'https://example.com/document.pdf');
 ```
 
 ### Inline widget
 
 ```dart
-FilePreviewWidget(
-  file: File('/path/to/file.md'),
-  config: PreviewConfig(
-    showToolbar: false,
-    enableZoom: true,
-    codeTheme: CodeTheme.dracula,
-  ),
-  onTypeDetected: (type) => print('Detected: $type'),
-)
+// Local
+FilePreviewWidget(file: File('/path/to/file.md'))
+
+// Remote
+FilePreviewWidget(url: 'https://example.com/file.md')
 ```
 
 ### With controller (PDF page navigation)
@@ -143,7 +142,8 @@ FilePreviewWidget
 dependencies:
   flutter:
     sdk: flutter
-  # That's it. Zero external packages.
+  http: ^1.2.1
+  path_provider: ^2.1.3
 ```
 
 ---

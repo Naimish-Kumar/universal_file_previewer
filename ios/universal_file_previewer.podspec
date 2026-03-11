@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'universal_file_previewer'
-  s.version          = '0.1.0'
+  s.version          = '0.3.0'
   s.summary          = 'Preview 50+ file formats with zero heavy dependencies.'
   s.description      = <<-DESC
 A new Flutter plugin project.

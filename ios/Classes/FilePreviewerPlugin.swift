@@ -12,6 +12,9 @@ public class FilePreviewerPlugin: NSObject, FlutterPlugin {
         )
         let instance = FilePreviewerPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+
+        let factory = VideoViewFactory(messenger: registrar.messenger())
+        registrar.register(factory, withId: "universal_file_previewer_video_view")
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {

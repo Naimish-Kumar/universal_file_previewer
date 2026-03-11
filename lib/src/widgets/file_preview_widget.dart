@@ -4,6 +4,7 @@ import '../core/file_detector.dart';
 import '../core/file_type.dart';
 import '../core/preview_config.dart';
 import '../core/preview_controller.dart';
+import '../core/file_downloader.dart';
 import '../renderers/fallback_renderer.dart';
 import '../renderers/image_renderer.dart';
 import '../renderers/media_renderers.dart';
@@ -20,9 +21,19 @@ import '../renderers/zip_renderer.dart';
 ///   config: PreviewConfig(showToolbar: true),
 /// )
 /// ```
+///
+/// Or preview via URL:
+/// ```dart
+/// FilePreviewWidget(
+///   url: 'https://example.com/document.pdf',
+/// )
+/// ```
 class FilePreviewWidget extends StatefulWidget {
-  /// The file to preview.
-  final File file;
+  /// The local file to preview.
+  final File? file;
+
+  /// The URL of the file to preview.
+  final String? url;
 
   /// Configuration for appearance and behavior.
   final PreviewConfig config;
@@ -35,11 +46,12 @@ class FilePreviewWidget extends StatefulWidget {
 
   const FilePreviewWidget({
     super.key,
-    required this.file,
+    this.file,
+    this.url,
     this.config = const PreviewConfig(),
     this.controller,
     this.onTypeDetected,
-  });
+  }) : assert(file != null || url != null, 'Either file or url must be provided');
 
   @override
   State<FilePreviewWidget> createState() => _FilePreviewWidgetState();
@@ -47,43 +59,54 @@ class FilePreviewWidget extends StatefulWidget {
 
 class _FilePreviewWidgetState extends State<FilePreviewWidget> {
   FileType? _fileType;
-  bool _detecting = true;
+  bool _isLoading = true;
   String? _error;
+  File? _localFile;
 
   @override
   void initState() {
     super.initState();
-    _detect();
+    _initPreview();
   }
 
   @override
   void didUpdateWidget(FilePreviewWidget old) {
     super.didUpdateWidget(old);
-    if (old.file.path != widget.file.path) {
-      setState(() {
-        _fileType = null;
-        _detecting = true;
-        _error = null;
-      });
-      _detect();
+    if (old.file?.path != widget.file?.path || old.url != widget.url) {
+      _initPreview();
     }
   }
 
-  Future<void> _detect() async {
+  Future<void> _initPreview() async {
+    setState(() {
+      _fileType = null;
+      _isLoading = true;
+      _error = null;
+      _localFile = widget.file;
+    });
+
     try {
-      final type = await FileDetector.detect(widget.file);
-      if (mounted) {
-        setState(() {
-          _fileType = type;
-          _detecting = false;
-        });
-        widget.onTypeDetected?.call(type);
+      if (widget.url != null && widget.file == null) {
+        _localFile = await FileDownloader.download(widget.url!);
+      }
+
+      if (_localFile != null) {
+        final type = await FileDetector.detect(_localFile!);
+        if (mounted) {
+          setState(() {
+            _fileType = type;
+            _isLoading = false;
+          });
+          widget.onTypeDetected?.call(type);
+        }
+      } else {
+        throw Exception('No file or URL provided');
       }
     } catch (e) {
       if (mounted) {
         setState(() {
           _error = e.toString();
-          _detecting = false;
+          _isLoading = false;
         });
       }
     }
@@ -91,7 +114,7 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_detecting) {
+    if (_isLoading) {
       return widget.config.loadingBuilder?.call() ??
           const Center(child: CircularProgressIndicator());
     }
@@ -104,7 +127,7 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
               children: [
                 const Icon(Icons.error_outline, size: 48, color: Colors.red),
                 const SizedBox(height: 12),
-                Text('Failed to detect file type: $_error'),
+                Text('Failed to load preview: $_error'),
               ],
             ),
           );
@@ -122,18 +145,18 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
       FileType.webp ||
       FileType.bmp  ||
       FileType.tiff =>
-        ImageRenderer(file: widget.file, config: widget.config),
+        ImageRenderer(file: _localFile!, config: widget.config),
 
       FileType.svg =>
-        SvgRenderer(file: widget.file, config: widget.config),
+        SvgRenderer(file: _localFile!, config: widget.config),
 
       FileType.heic =>
-        HeicRenderer(file: widget.file, config: widget.config),
+        HeicRenderer(file: _localFile!, config: widget.config),
 
       // ── PDF ───────────────────────────────────────────────
       FileType.pdf =>
         PdfRenderer(
-          file: widget.file,
+          file: _localFile!,
           config: widget.config,
           controller: widget.controller,
         ),
@@ -144,7 +167,7 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
       FileType.avi  ||
       FileType.mkv  ||
       FileType.webm =>
-        VideoRenderer(file: widget.file, config: widget.config),
+        VideoRenderer(file: _localFile!, config: widget.config),
 
       // ── Audio ─────────────────────────────────────────────
       FileType.mp3  ||
@@ -152,7 +175,7 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
       FileType.aac  ||
       FileType.flac ||
       FileType.ogg  =>
-        AudioRenderer(file: widget.file, config: widget.config),
+        AudioRenderer(file: _localFile!, config: widget.config),
 
       // ── Documents (DOCX, XLSX, PPTX) ─────────────────────
       FileType.docx ||
@@ -162,42 +185,42 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
       FileType.pptx ||
       FileType.ppt  =>
         FallbackRenderer(
-          file: widget.file,
+          file: _localFile!,
           fileType: type,
           config: widget.config,
         ),
 
       // ── Code ──────────────────────────────────────────────
       FileType.code =>
-        CodeRenderer(file: widget.file, config: widget.config),
+        CodeRenderer(file: _localFile!, config: widget.config),
 
       // ── Text & Data ───────────────────────────────────────
       FileType.txt =>
-        TextRenderer(file: widget.file, config: widget.config),
+        TextRenderer(file: _localFile!, config: widget.config),
 
       FileType.markdown =>
-        MarkdownRenderer(file: widget.file, config: widget.config),
+        MarkdownRenderer(file: _localFile!, config: widget.config),
 
       FileType.json =>
-        JsonRenderer(file: widget.file, config: widget.config),
+        JsonRenderer(file: _localFile!, config: widget.config),
 
       FileType.csv =>
-        CsvRenderer(file: widget.file, config: widget.config),
+        CsvRenderer(file: _localFile!, config: widget.config),
 
       FileType.xml  ||
       FileType.html =>
-        TextRenderer(file: widget.file, config: widget.config),
+        TextRenderer(file: _localFile!, config: widget.config),
 
       // ── Archives ──────────────────────────────────────────
       FileType.zip =>
-        ZipRenderer(file: widget.file, config: widget.config),
+        ZipRenderer(file: _localFile!, config: widget.config),
 
       FileType.rar  ||
       FileType.tar  ||
       FileType.gz   ||
       FileType.sevenZ =>
         FallbackRenderer(
-          file: widget.file,
+          file: _localFile!,
           fileType: type,
           config: widget.config,
         ),
@@ -205,7 +228,7 @@ class _FilePreviewWidgetState extends State<FilePreviewWidget> {
       // ── 3D & Unknown ──────────────────────────────────────
       _ =>
         FallbackRenderer(
-          file: widget.file,
+          file: _localFile!,
           fileType: type,
           config: widget.config,
         ),

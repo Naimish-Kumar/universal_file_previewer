@@ -19,7 +19,8 @@ import 'file_preview_widget.dart';
 /// FilePreviewPage.open(context, file: myFile);
 /// ```
 class FilePreviewPage extends StatefulWidget {
-  final File file;
+  final File? file;
+  final String? url;
   final PreviewConfig config;
   final PreviewController? controller;
   final String? title;
@@ -27,26 +28,30 @@ class FilePreviewPage extends StatefulWidget {
 
   const FilePreviewPage({
     super.key,
-    required this.file,
+    this.file,
+    this.url,
     this.config = const PreviewConfig(),
     this.controller,
     this.title,
     this.actions,
-  });
+  }) : assert(file != null || url != null, 'Either file or url must be provided');
 
   /// Convenience method to push this page onto the navigator.
   static Future<void> open(
     BuildContext context, {
-    required File file,
+    File? file,
+    String? url,
     PreviewConfig config = const PreviewConfig(),
     PreviewController? controller,
     String? title,
   }) {
+    assert(file != null || url != null, 'Either file or url must be provided');
     return Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => FilePreviewPage(
           file: file,
+          url: url,
           config: config,
           controller: controller,
           title: title,
@@ -81,7 +86,8 @@ class _FilePreviewPageState extends State<FilePreviewPage> {
     if (widget.title != null) {
       return widget.title!;
     }
-    final name = widget.file.path.split('/').last;
+    final path = widget.file?.path ?? widget.url ?? 'Unknown';
+    final name = path.split('/').last;
     return name.length > 30 ? '...${name.substring(name.length - 28)}' : name;
   }
 
@@ -96,7 +102,16 @@ class _FilePreviewPageState extends State<FilePreviewPage> {
   }
 
   void _showInfo() async {
-    final stat = await widget.file.stat();
+    if (widget.file == null) {
+      // For now, we don't show info for URL-based files unless downloaded.
+      // FilePreviewWidget handles downloading internally, so we don't have easy access here.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('File info only available for local files.')),
+      );
+      return;
+    }
+
+    final stat = await widget.file!.stat();
     if (!mounted) {
       return;
     }
@@ -115,13 +130,13 @@ class _FilePreviewPageState extends State<FilePreviewPage> {
                 style:
                     TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            _infoRow('Name', widget.file.path.split('/').last),
+            _infoRow('Name', widget.file!.path.split('/').last),
             _infoRow('Type',
                 _detectedType?.label ?? 'Unknown'),
             _infoRow('Size', _formatSize(stat.size)),
             _infoRow('Modified',
                 stat.modified.toString().substring(0, 19)),
-            _infoRow('Path', widget.file.path),
+            _infoRow('Path', widget.file!.path),
             const SizedBox(height: 16),
           ],
         ),
@@ -172,6 +187,7 @@ class _FilePreviewPageState extends State<FilePreviewPage> {
           : null,
       body: FilePreviewWidget(
         file: widget.file,
+        url: widget.url,
         config: widget.config,
         controller: _controller,
         onTypeDetected: (type) {
