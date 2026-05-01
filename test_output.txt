@@ -1,0 +1,366 @@
+[  +39 ms] executing: sysctl hw.optional.arm64
+[   +4 ms] Exit code 0 from: sysctl hw.optional.arm64
+[        ] hw.optional.arm64: 1
+[   +6 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[        ] executing: [/Users/naimish/Documents/flutter/] git -c log.showSignature=false log HEAD -n 1 --pretty=format:%ad --date=iso
+[  +14 ms] Exit code 0 from: git -c log.showSignature=false log HEAD -n 1 --pretty=format:%ad --date=iso
+[        ] 2026-03-25 16:21:00 -0700
+[   +8 ms] Found 1 files which will be executed as Widget Tests.
+[   +2 ms] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[  +19 ms] Artifact Instance of 'MaterialFonts' is not required, skipping update.
+[        ] Artifact Instance of 'GradleWrapper' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidGenSnapshotArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'AndroidInternalBuildArtifacts' is not required, skipping update.
+[   +7 ms] Artifact Instance of 'IOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterWebSdk' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterEngineStamp' is not required, skipping update.
+[        ] Artifact Instance of 'LegacyCanvasKitRemover' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterSdk' is not required, skipping update.
+[        ] Artifact Instance of 'WindowsEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxEngineArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'LinuxFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'MacOSFuchsiaSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerSDKArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FlutterRunnerDebugSymbols' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'IosUsbArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'FontSubsetArtifacts' is not required, skipping update.
+[        ] Artifact Instance of 'PubDependencies' is not required, skipping update.
+[  +10 ms] Skipping pub get: version match.
+[ +124 ms] Building native assets for macos_arm64.
+[  +32 ms] input.json contents:
+           {
+             "assets": {},
+             "config": {
+               "build_asset_types": [
+                 "code_assets/code"
+               ],
+               "extensions": {
+                 "code_assets": {
+                   "c_compiler": {
+                     "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
+                     "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+                     "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
+                   },
+                   "link_mode_preference": "dynamic",
+                   "macos": {
+                     "target_version": 13
+                   },
+                   "target_architecture": "arm64",
+                   "target_os": "macos"
+                 }
+               },
+               "linking_enabled": false
+             },
+             "out_dir_shared": "/Users/naimish/projects/learning-projects/universal_file_previewer/.dart_tool/hooks_runner/shared/objective_c/build/",
+             "out_file": "/Users/naimish/projects/learning-projects/universal_file_previewer/.dart_tool/hooks_runner/objective_c/7ad245dadc/output.json",
+             "package_name": "objective_c",
+             "package_root": "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/",
+             "user_defines": {}
+           }
+[   +4 ms] output.json contents:
+           {
+             "assets": [
+               {
+                 "encoding": {
+                   "file": "/Users/naimish/projects/learning-projects/universal_file_previewer/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/objective_c.dylib",
+                   "id": "package:objective_c/objective_c.dylib",
+                   "link_mode": {
+                     "type": "dynamic_loading_bundle"
+                   }
+                 },
+                 "type": "code_assets/code"
+               }
+             ],
+             "assets_for_linking": {},
+             "dependencies": [
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_api_dl.c",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.c",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/test/util.c",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/input_stream_adapter.m",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.m",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/observer.m",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/ns_number.m",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/protocol.m",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c_bindings_generated.m",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/protocol.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/ns_number.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/observer.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c_runtime.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_version.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/analyze_snapshot_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/bin/dart_io_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/bin/native_assets_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_embedder_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_native_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/internal/dart_api_dl_impl.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_tools_api.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_api_dl.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/foundation.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/input_stream_adapter.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/os_version.h",
+               "/Users/naimish/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/ffi.h"
+             ],
+             "status": "success",
+             "timestamp": "2026-05-01 18:41:34.000"
+           }
+[  +17 ms] Skipping build for objective_c in /Users/naimish/projects/learning-projects/universal_file_previewer/.dart_tool/hooks_runner/objective_c/7ad245dadc/. Last build on 2026-05-01 18:41:34.000.
+[   +5 ms] Note: You are using the dart build hooks feature which is currently in preview. Please see https://dart.dev/interop/c-interop#native-assets for more details.
+[        ] Building native assets for macos_arm64 done.
+[   +1 ms] Copying native assets to /Users/naimish/projects/learning-projects/universal_file_previewer/build/native_assets/macos/.
+[  +39 ms] codesign --force --sign - --timestamp=none /Users/naimish/projects/learning-projects/universal_file_previewer/build/native_assets/macos/objective_c.dylib
+[  +13 ms] /Users/naimish/projects/learning-projects/universal_file_previewer/build/native_assets/macos/objective_c.dylib: replacing existing signature
+
+[        ] Copying native assets done.
+[        ] Writing native assets json to file:///Users/naimish/projects/learning-projects/universal_file_previewer/build/native_assets/macos/native_assets.json.
+[   +1 ms] Writing /Users/naimish/projects/learning-projects/universal_file_previewer/build/native_assets/macos/native_assets.json done.
+[ +102 ms] running test package with arguments: [--no-color, --chain-stack-traces, --, file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart?]
+00:00 +0: loading /Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart
+[  +99 ms] test 0: starting test /Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart
+[   +2 ms] Stopping scan for flutter_test_config.dart; found project root at /Users/naimish/projects/learning-projects/universal_file_previewer
+[   +1 ms] Compiler will use the following file as its incremental dill file: /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_compiler.zpLYlU/output.dill
+[        ] Listening to compiler controller...
+[   +5 ms] Compiling file:///var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_listener.EWjDH0/listener.dart
+[  +12 ms] Found plugin universal_file_previewer at /Users/naimish/projects/learning-projects/universal_file_previewer/
+[  +17 ms] Found plugin video_player at /Users/naimish/.pub-cache/hosted/pub.dev/video_player-2.11.1/
+[        ] Found plugin video_player_web at /Users/naimish/.pub-cache/hosted/pub.dev/video_player_web-2.4.0/
+[   +2 ms] Found plugin video_player_avfoundation at /Users/naimish/.pub-cache/hosted/pub.dev/video_player_avfoundation-2.9.4/
+[        ] Found plugin video_player_android at /Users/naimish/.pub-cache/hosted/pub.dev/video_player_android-2.9.5/
+[   +1 ms] Found plugin path_provider at /Users/naimish/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
+[        ] Found plugin path_provider_windows at /Users/naimish/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+[   +2 ms] Found plugin path_provider_linux at /Users/naimish/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+[   +1 ms] Found plugin path_provider_foundation at /Users/naimish/.pub-cache/hosted/pub.dev/path_provider_foundation-2.6.0/
+[   +7 ms] Found plugin path_provider_android at /Users/naimish/.pub-cache/hosted/pub.dev/path_provider_android-2.3.1/
+[        ] Found plugin jni_flutter at /Users/naimish/.pub-cache/hosted/pub.dev/jni_flutter-1.0.1/
+[        ] Found plugin jni at /Users/naimish/.pub-cache/hosted/pub.dev/jni-1.0.0/
+[   +1 ms] Found plugin native_pdf_renderer at /Users/naimish/.pub-cache/hosted/pub.dev/native_pdf_renderer-3.1.0/
+[   +5 ms] Found plugin device_info at /Users/naimish/.pub-cache/hosted/pub.dev/device_info-2.0.3/
+[  +13 ms] Skipping generating dart_plugin_registrant.dart because it is up-to-date.
+[   +2 ms] /Users/naimish/Documents/flutter/bin/cache/dart-sdk/bin/dartaotruntime /Users/naimish/Documents/flutter/bin/cache/dart-sdk/bin/snapshots/frontend_server_aot.dart.snapshot --sdk-root /Users/naimish/Documents/flutter/bin/cache/artifacts/engine/common/flutter_patched_sdk/ --incremental --no-print-incremental-dependencies --target=flutter --experimental-emit-debug-metadata -DFLUTTER_VERSION=3.41.6 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=db50e20168 -DFLUTTER_ENGINE_REVISION=425cfb54d0 -DFLUTTER_DART_VERSION=3.11.4 --output-dill /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_compiler.zpLYlU/output.dill --packages /Users/naimish/projects/learning-projects/universal_file_previewer/.dart_tool/package_config.json -Ddart.vm.profile=false -Ddart.vm.product=false --enable-asserts --track-widget-creation --initialize-from-dill /Users/naimish/projects/learning-projects/universal_file_previewer/build/test_cache/build/b70f9274ac3b5ec9754be8774a3c9a1c.cache.dill.track.dill --verbosity=error
+[   +5 ms] <- compile file:///var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_listener.EWjDH0/listener.dart
+[ +637 ms] <- accept
+[        ] <- reset
+[        ] Compiling file:///var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_listener.EWjDH0/listener.dart took 716ms
+[        ] test 0: starting test device
+[   +3 ms] test 0: awaiting connection to test device
+[   +1 ms] test 0: VM Service uri is not available
+[   +3 ms] test 0: test harness socket server is running at port:49802
+[   +1 ms] Using this directory for fonts configuration: /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_fonts.43EsuJ
+[        ] test 0: Starting flutter_tester process with command=[/Users/naimish/Documents/flutter/bin/cache/artifacts/engine/darwin-x64/flutter_tester, --disable-vm-service, --enable-checked-mode, --verify-entry-points, --enable-software-rendering, --skia-deterministic-rendering, --enable-dart-profiling, --non-interactive, --use-test-fonts, --disable-asset-fonts, --packages=/Users/naimish/projects/learning-projects/universal_file_previewer/.dart_tool/package_config.json, --flutter-assets-dir=/Users/naimish/projects/learning-projects/universal_file_previewer/build/unit_test_assets, /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_listener.EWjDH0/listener.dart.dill], environment={FLUTTER_TEST: true, FONTCONFIG_FILE: /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_fonts.43EsuJ/fonts.conf, SERVER_PORT: 49802, APP_NAME: universal_file_previewer, UNIT_TEST_ASSETS: /Users/naimish/projects/learning-projects/universal_file_previewer/build/unit_test_assets}
+[   +5 ms] test 0: Started flutter_tester process at pid 68478
+[ +356 ms] test 0: connected to test device, now awaiting test result
+[        ] test 0: Waiting for test harness or tests to finish
+00:00 +0: (setUpAll)
+00:00 +0: FilePreviewWidget builds PdfRenderer for .pdf files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "PdfRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:38:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 38
+The test description was:
+  FilePreviewWidget builds PdfRenderer for .pdf files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: FilePreviewWidget builds PdfRenderer for .pdf files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds PdfRenderer for .pdf files
+  
+00:00 +0 -1: FilePreviewWidget builds VideoRenderer for .mp4 files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "VideoRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:51:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 51
+The test description was:
+  FilePreviewWidget builds VideoRenderer for .mp4 files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -2: FilePreviewWidget builds VideoRenderer for .mp4 files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds VideoRenderer for .mp4 files
+  
+00:00 +0 -2: FilePreviewWidget builds AudioRenderer for .mp3 files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "AudioRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:64:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 64
+The test description was:
+  FilePreviewWidget builds AudioRenderer for .mp3 files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -3: FilePreviewWidget builds AudioRenderer for .mp3 files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds AudioRenderer for .mp3 files
+  
+00:00 +0 -3: FilePreviewWidget builds CodeRenderer for .dart files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "CodeRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:77:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 77
+The test description was:
+  FilePreviewWidget builds CodeRenderer for .dart files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -4: FilePreviewWidget builds CodeRenderer for .dart files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds CodeRenderer for .dart files
+  
+00:00 +0 -4: (tearDownAll)
+[ +861 ms] test 0: Test harness is no longer needed by test process
+[        ] test 0: finished
+[        ] test 0: cleaning up...
+[        ] test 0: ensuring test device is terminated.
+[        ] test 0: Terminating flutter_tester process
+[        ] test 0: Shutting down DevTools server
+[        ] test 0: Test process is no longer needed by test harness
+[   +1 ms] test 0: Shutting down test harness socket server
+[   +4 ms] test 0: flutter_tester process at pid 68478 exited with code=-9
+[        ] test 0: deleting temporary directory
+[        ] test 0: finished
+00:00 +0 -4: Some tests failed.
+[   +4 ms] Deleting /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_compiler.zpLYlU...
+[        ] killing pid 68470
+[  +13 ms] Deleting /var/folders/75/fjmg4pq175j2kf6bshccnbvw0000gq/T/flutter_tools.sgYffx/flutter_test_fonts.43EsuJ...
+[   +2 ms] test package returned with exit code 1
+[        ] Runtime for phase TestRunner: Wall-clock: 0:00:02.097413; combined: 0:00:02.097439.
+[        ] Runtime for phase Compile: Wall-clock: 0:00:00.716560; combined: 0:00:00.716596.
+[        ] Runtime for phase Run: Wall-clock: 0:00:01.233265; combined: 0:00:01.233267.
+[        ] Runtime for phase CoverageTotal: Wall-clock: 0:00:00.000000; combined: 0:00:00.000000.
+[        ] Runtime for phase CoverageCollect: Wall-clock: 0:00:00.000000; combined: 0:00:00.000000.
+[        ] Runtime for phase CoverageParseJson: Wall-clock: 0:00:00.000000; combined: 0:00:00.000000.
+[        ] Runtime for phase CoverageAddHitmap: Wall-clock: 0:00:00.000000; combined: 0:00:00.000000.
+[        ] Runtime for phase CoverageDataCollect: Wall-clock: 0:00:00.000000; combined: 0:00:00.000000.
+[        ] Runtime for phase WatcherFinishedTest: Wall-clock: 0:00:00.000552; combined: 0:00:00.000553.
+[        ] "flutter test" took 2,480ms.
+[   +4 ms] executing: sw_vers -productName
+[  +13 ms] Exit code 0 from: sw_vers -productName
+[        ] macOS
+[        ] executing: sw_vers -productVersion
+[  +12 ms] Exit code 0 from: sw_vers -productVersion
+[        ] 26.4.1
+[        ] executing: sw_vers -buildVersion
+[  +11 ms] Exit code 0 from: sw_vers -buildVersion
+[        ] 25E253
+[        ] executing: uname -m
+[   +5 ms] Exit code 0 from: uname -m
+[        ] arm64
+[  +47 ms] 
+           #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)
+           #1      TestCommand.runCommand (package:flutter_tools/src/commands/test.dart:727:7)
+           <asynchronous suspension>
+           #2      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1590:27)
+           <asynchronous suspension>
+           #3      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #4      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+           <asynchronous suspension>
+           #5      FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:496:9)
+           <asynchronous suspension>
+           #6      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #7      FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:431:5)
+           <asynchronous suspension>
+           #8      FlutterCommandRunner.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:307:33)
+           <asynchronous suspension>
+           #9      run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
+           <asynchronous suspension>
+           #10     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+           <asynchronous suspension>
+           #11     main (package:flutter_tools/executable.dart:103:3)
+           <asynchronous suspension>
+
+
+[        ] Running 3 shutdown hooks
+[   +1 ms] Shutdown hooks complete
+[ +162 ms] exiting with code 1

@@ -77,6 +77,11 @@ class FileDetector {
     'php':  FileType.code,
     'sh':   FileType.code,
     'swift':FileType.code,
+    'gradle':FileType.code,
+    'kts':  FileType.code,
+    'sql':  FileType.code,
+    'm':    FileType.code,
+    'mm':   FileType.code,
     // Text / Data
     'txt':  FileType.txt,
     'md':   FileType.markdown,

@@ -1,11 +1,11 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'dart:async';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import '../core/preview_config.dart';
 import '../platform/platform_channel.dart';
 import '../widgets/native_video_player.dart';
-import '../widgets/video_player_controller.dart';
 
 // ─────────────────────────────────────────────────────────
 // Video Renderer
@@ -24,7 +24,7 @@ class VideoRenderer extends StatefulWidget {
 
 class _VideoRendererState extends State<VideoRenderer> {
   Uint8List? _thumbnail;
-  NativeVideoController? _controller;
+  VideoPlayerController? _controller;
   bool _showControls = true;
   Timer? _hideTimer;
   bool _initialized = false;
@@ -42,7 +42,7 @@ class _VideoRendererState extends State<VideoRenderer> {
   void dispose() {
     _hideTimer?.cancel();
     _controller?.removeListener(_onControllerUpdate);
-    _controller?.dispose();
+    // Note: VideoPlayerController is disposed by NativeVideoPlayer widget
     super.dispose();
   }
 
@@ -55,15 +55,13 @@ class _VideoRendererState extends State<VideoRenderer> {
           _thumbnail = thumb;
         });
       }
-    } catch (_) {
-      // Thumbnail generation is best-effort; the native player will still work.
-    }
+    } catch (_) {}
   }
 
   void _startHideTimer() {
     _hideTimer?.cancel();
     _hideTimer = Timer(const Duration(seconds: 3), () {
-      if (mounted && _controller?.isPlaying == true) {
+      if (mounted && _controller?.value.isPlaying == true) {
         setState(() => _showControls = false);
       }
     });
@@ -80,10 +78,9 @@ class _VideoRendererState extends State<VideoRenderer> {
 
   void _onControllerUpdate() {
     if (!mounted) return;
-    if (!_initialized && _controller!.isInitialized) {
-      _initialized = true;
+    if (!_initialized && _controller!.value.isInitialized) {
+      setState(() => _initialized = true);
     }
-    // Don't update slider position while user is actively seeking
     if (!_isSeeking) {
       setState(() {});
     }
@@ -106,19 +103,18 @@ class _VideoRendererState extends State<VideoRenderer> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Native Player
+            // Video Player
             Positioned.fill(
               child: NativeVideoPlayer(
                 path: widget.file.path,
                 onCreated: (controller) {
                   _controller = controller;
                   _controller!.addListener(_onControllerUpdate);
-                  setState(() {});
                 },
               ),
             ),
 
-            // Thumbnail placeholder (shows while native view is loading)
+            // Thumbnail placeholder
             if (!_initialized && _thumbnail != null)
               Positioned.fill(
                 child: Image.memory(
@@ -128,13 +124,13 @@ class _VideoRendererState extends State<VideoRenderer> {
               ),
 
             // Loading indicator
-            if (!_initialized && _controller?.error == null)
+            if (!_initialized && _controller?.value.hasError != true)
               const Center(
                 child: CircularProgressIndicator(color: Colors.white70),
               ),
 
             // Error state
-            if (_controller?.error != null)
+            if (_controller?.value.hasError == true)
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
@@ -153,7 +149,7 @@ class _VideoRendererState extends State<VideoRenderer> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        _controller!.error!,
+                        _controller!.value.errorDescription ?? 'Unknown error',
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: Colors.white70, fontSize: 13),
                       ),
@@ -164,8 +160,8 @@ class _VideoRendererState extends State<VideoRenderer> {
 
             // Controls Overlay
             if (_initialized &&
-                _controller?.error == null &&
-                (_showControls || _controller?.isPlaying != true))
+                _controller?.value.hasError != true &&
+                (_showControls || _controller?.value.isPlaying != true))
               _buildControlsOverlay(),
           ],
         ),
@@ -174,15 +170,13 @@ class _VideoRendererState extends State<VideoRenderer> {
   }
 
   Widget _buildControlsOverlay() {
-    final isPlaying = _controller?.isPlaying ?? false;
-    final duration = _controller?.duration ?? Duration.zero;
-    final position = _controller?.position ?? Duration.zero;
+    final value = _controller?.value;
+    final isPlaying = value?.isPlaying ?? false;
+    final duration = value?.duration ?? Duration.zero;
+    final position = value?.position ?? Duration.zero;
 
-    // Clamp position to not exceed duration
-    final clampedPositionMs = position.inMilliseconds
-        .clamp(0, duration.inMilliseconds > 0 ? duration.inMilliseconds : 1);
-    final maxMs =
-        duration.inMilliseconds > 0 ? duration.inMilliseconds.toDouble() : 1.0;
+    final maxMs = duration.inMilliseconds.toDouble();
+    final clampedPositionMs = position.inMilliseconds.toDouble().clamp(0.0, maxMs > 0 ? maxMs : 1.0);
 
     return Container(
       decoration: BoxDecoration(
@@ -190,10 +184,10 @@ class _VideoRendererState extends State<VideoRenderer> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.black.withValues(alpha: 0.3),
+            Colors.black.withOpacity(0.3),
             Colors.transparent,
             Colors.transparent,
-            Colors.black.withValues(alpha: 0.7),
+            Colors.black.withOpacity(0.7),
           ],
           stops: const [0.0, 0.3, 0.6, 1.0],
         ),
@@ -215,7 +209,7 @@ class _VideoRendererState extends State<VideoRenderer> {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.5),
+                color: Colors.black.withOpacity(0.5),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -243,19 +237,15 @@ class _VideoRendererState extends State<VideoRenderer> {
                     thumbColor: Colors.white,
                   ),
                   child: Slider(
-                    value: _isSeeking
-                        ? _seekValue
-                        : clampedPositionMs.toDouble(),
+                    value: _isSeeking ? _seekValue : clampedPositionMs,
                     min: 0,
-                    max: maxMs,
+                    max: maxMs > 0 ? maxMs : 1.0,
                     onChangeStart: (v) {
                       _isSeeking = true;
                       _seekValue = v;
                     },
                     onChanged: (v) {
-                      setState(() {
-                        _seekValue = v;
-                      });
+                      setState(() => _seekValue = v);
                     },
                     onChangeEnd: (v) {
                       _isSeeking = false;
@@ -271,17 +261,14 @@ class _VideoRendererState extends State<VideoRenderer> {
                     children: [
                       Text(
                         _isSeeking
-                            ? _formatDuration(
-                                Duration(milliseconds: _seekValue.toInt()))
+                            ? _formatDuration(Duration(milliseconds: _seekValue.toInt()))
                             : _formatDuration(position),
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
+                        style: const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                       const Spacer(),
                       Text(
                         _formatDuration(duration),
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
+                        style: const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
                   ),
@@ -313,8 +300,8 @@ class AudioRenderer extends StatefulWidget {
 
 class _AudioRendererState extends State<AudioRenderer>
     with SingleTickerProviderStateMixin {
-  bool _playing = false;
-  double _progress = 0.0;
+  late VideoPlayerController _controller;
+  bool _initialized = false;
   late AnimationController _waveController;
 
   @override
@@ -324,18 +311,48 @@ class _AudioRendererState extends State<AudioRenderer>
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat();
+    _init();
+  }
+
+  Future<void> _init() async {
+    if (kIsWeb) {
+      _controller = VideoPlayerController.networkUrl(Uri.parse(widget.file.path));
+    } else {
+      _controller = VideoPlayerController.file(widget.file);
+    }
+
+    try {
+      await _controller.initialize();
+      if (mounted) {
+        setState(() => _initialized = true);
+        _controller.addListener(() => setState(() {}));
+      }
+    } catch (e) {
+      debugPrint('Audio initialization error: $e');
+    }
   }
 
   @override
   void dispose() {
     _waveController.dispose();
+    _controller.dispose();
     super.dispose();
+  }
+
+  String _formatDuration(Duration duration) {
+    final m = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final s = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$m:$s';
   }
 
   @override
   Widget build(BuildContext context) {
     final fileName = widget.file.path.split('/').last;
     final ext = fileName.split('.').last.toUpperCase();
+    final value = _controller.value;
+    final isPlaying = value.isPlaying;
+    final duration = value.duration;
+    final position = value.position;
 
     return Container(
       color: const Color(0xFF1A1A2E),
@@ -358,7 +375,7 @@ class _AudioRendererState extends State<AudioRenderer>
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF6C63FF).withValues(alpha: 0.4),
+                      color: const Color(0xFF6C63FF).withOpacity(0.4),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -367,14 +384,12 @@ class _AudioRendererState extends State<AudioRenderer>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.music_note,
-                        size: 56, color: Colors.white),
+                    const Icon(Icons.music_note, size: 56, color: Colors.white),
                     const SizedBox(height: 4),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(ext,
@@ -408,7 +423,7 @@ class _AudioRendererState extends State<AudioRenderer>
                 builder: (ctx, _) {
                   return _WaveformWidget(
                     progress: _waveController.value,
-                    isPlaying: _playing,
+                    isPlaying: isPlaying,
                   );
                 },
               ),
@@ -416,35 +431,64 @@ class _AudioRendererState extends State<AudioRenderer>
               const SizedBox(height: 24),
 
               // Progress bar
-              SliderTheme(
-                data: SliderThemeData(
-                  trackHeight: 3,
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 6),
-                  overlayShape:
-                      const RoundSliderOverlayShape(overlayRadius: 12),
-                  activeTrackColor: const Color(0xFF6C63FF),
-                  inactiveTrackColor: Colors.grey[800],
-                  thumbColor: Colors.white,
+              if (_initialized)
+                SliderTheme(
+                  data: SliderThemeData(
+                    trackHeight: 3,
+                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                    activeTrackColor: const Color(0xFF6C63FF),
+                    inactiveTrackColor: Colors.grey[800],
+                    thumbColor: Colors.white,
+                  ),
+                  child: Slider(
+                    value: position.inMilliseconds.toDouble(),
+                    min: 0,
+                    max: duration.inMilliseconds.toDouble() > 0 
+                        ? duration.inMilliseconds.toDouble() 
+                        : 1.0,
+                    onChanged: (v) {
+                      _controller.seekTo(Duration(milliseconds: v.toInt()));
+                    },
+                  ),
                 ),
-                child: Slider(
-                  value: _progress,
-                  onChanged: (v) => setState(() => _progress = v),
+
+              if (_initialized)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(_formatDuration(position),
+                          style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                      Text(_formatDuration(duration),
+                          style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                    ],
+                  ),
                 ),
-              ),
+
+              const SizedBox(height: 16),
 
               // Playback controls
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.replay_10,
-                        color: Colors.white, size: 32),
-                    onPressed: () {},
+                    icon: const Icon(Icons.replay_10, color: Colors.white, size: 32),
+                    onPressed: _initialized 
+                        ? () => _controller.seekTo(position - const Duration(seconds: 10)) 
+                        : null,
                   ),
                   const SizedBox(width: 16),
                   GestureDetector(
-                    onTap: () => setState(() => _playing = !_playing),
+                    onTap: () {
+                      if (!_initialized) return;
+                      if (isPlaying) {
+                        _controller.pause();
+                      } else {
+                        _controller.play();
+                      }
+                    },
                     child: Container(
                       width: 60,
                       height: 60,
@@ -453,7 +497,7 @@ class _AudioRendererState extends State<AudioRenderer>
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
-                        _playing ? Icons.pause : Icons.play_arrow,
+                        isPlaying ? Icons.pause : Icons.play_arrow,
                         color: Colors.white,
                         size: 32,
                       ),
@@ -461,18 +505,12 @@ class _AudioRendererState extends State<AudioRenderer>
                   ),
                   const SizedBox(width: 16),
                   IconButton(
-                    icon: const Icon(Icons.forward_10,
-                        color: Colors.white, size: 32),
-                    onPressed: () {},
+                    icon: const Icon(Icons.forward_10, color: Colors.white, size: 32),
+                    onPressed: _initialized 
+                        ? () => _controller.seekTo(position + const Duration(seconds: 10)) 
+                        : null,
                   ),
                 ],
-              ),
-
-              const SizedBox(height: 16),
-              Text(
-                'Connect native audio via platform channel for real playback',
-                style: TextStyle(color: Colors.grey[600], fontSize: 11),
-                textAlign: TextAlign.center,
               ),
             ],
           ),

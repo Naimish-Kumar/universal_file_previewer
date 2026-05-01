@@ -10,6 +10,7 @@
         "flutter",
         "flutter_web_plugins",
         "http",
+        "native_pdf_renderer",
         "path",
         "path_provider",
         "video_player"
@@ -42,6 +43,21 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "native_pdf_renderer",
+      "version": "3.1.0",
+      "dependencies": [
+        "device_info",
+        "extension",
+        "flutter",
+        "flutter_web_plugins",
+        "image",
+        "js",
+        "meta",
+        "synchronized",
+        "uuid"
       ]
     },
     {
@@ -163,7 +179,7 @@
     },
     {
       "name": "matcher",
-      "version": "0.12.17",
+      "version": "0.12.19",
       "dependencies": [
         "async",
         "meta",
@@ -174,7 +190,7 @@
     },
     {
       "name": "test_api",
-      "version": "0.7.7",
+      "version": "0.7.10",
       "dependencies": [
         "async",
         "boolean_selector",
@@ -185,6 +201,47 @@
         "stream_channel",
         "string_scanner",
         "term_glyph"
+      ]
+    },
+    {
+      "name": "synchronized",
+      "version": "3.4.0+1",
+      "dependencies": []
+    },
+    {
+      "name": "extension",
+      "version": "0.2.0",
+      "dependencies": []
+    },
+    {
+      "name": "js",
+      "version": "0.6.7",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "image",
+      "version": "3.3.0",
+      "dependencies": [
+        "archive",
+        "meta",
+        "xml"
+      ]
+    },
+    {
+      "name": "uuid",
+      "version": "3.0.7",
+      "dependencies": [
+        "crypto"
+      ]
+    },
+    {
+      "name": "device_info",
+      "version": "2.0.3",
+      "dependencies": [
+        "device_info_platform_interface",
+        "flutter"
       ]
     },
     {
@@ -199,7 +256,7 @@
     },
     {
       "name": "video_player_platform_interface",
-      "version": "6.6.0",
+      "version": "6.7.0",
       "dependencies": [
         "flutter",
         "plugin_platform_interface"
@@ -215,7 +272,7 @@
     },
     {
       "name": "video_player_android",
-      "version": "2.9.4",
+      "version": "2.9.5",
       "dependencies": [
         "flutter",
         "video_player_platform_interface"
@@ -271,9 +328,11 @@
     },
     {
       "name": "path_provider_android",
-      "version": "2.2.22",
+      "version": "2.3.1",
       "dependencies": [
         "flutter",
+        "jni",
+        "jni_flutter",
         "path_provider_platform_interface"
       ]
     },
@@ -294,7 +353,7 @@
     },
     {
       "name": "async",
-      "version": "2.13.0",
+      "version": "2.13.1",
       "dependencies": [
         "collection",
         "meta"
@@ -307,14 +366,14 @@
     },
     {
       "name": "material_color_utilities",
-      "version": "0.11.1",
+      "version": "0.13.0",
       "dependencies": [
         "collection"
       ]
     },
     {
       "name": "characters",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "dependencies": []
     },
     {
@@ -367,6 +426,39 @@
       ]
     },
     {
+      "name": "xml",
+      "version": "6.6.1",
+      "dependencies": [
+        "collection",
+        "meta",
+        "petitparser"
+      ]
+    },
+    {
+      "name": "archive",
+      "version": "3.6.1",
+      "dependencies": [
+        "crypto",
+        "path"
+      ]
+    },
+    {
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependencies": [
+        "typed_data"
+      ]
+    },
+    {
+      "name": "device_info_platform_interface",
+      "version": "2.0.1",
+      "dependencies": [
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
       "name": "plugin_platform_interface",
       "version": "2.1.8",
       "dependencies": [
@@ -412,6 +504,27 @@
       ]
     },
     {
+      "name": "jni_flutter",
+      "version": "1.0.1",
+      "dependencies": [
+        "flutter",
+        "jni"
+      ]
+    },
+    {
+      "name": "jni",
+      "version": "1.0.0",
+      "dependencies": [
+        "args",
+        "collection",
+        "ffi",
+        "meta",
+        "package_config",
+        "path",
+        "plugin_platform_interface"
+      ]
+    },
+    {
       "name": "typed_data",
       "version": "1.4.0",
       "dependencies": [
@@ -420,8 +533,16 @@
     },
     {
       "name": "vm_service",
-      "version": "15.0.2",
+      "version": "15.2.0",
       "dependencies": []
+    },
+    {
+      "name": "petitparser",
+      "version": "7.0.2",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
     },
     {
       "name": "pub_semver",
@@ -432,7 +553,7 @@
     },
     {
       "name": "native_toolchain_c",
-      "version": "0.17.5",
+      "version": "0.17.6",
       "dependencies": [
         "code_assets",
         "glob",
@@ -449,13 +570,14 @@
     },
     {
       "name": "hooks",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "dependencies": [
         "collection",
         "crypto",
         "logging",
         "meta",
         "pub_semver",
+        "record_use",
         "yaml"
       ]
     },
@@ -466,6 +588,18 @@
         "collection",
         "hooks"
       ]
+    },
+    {
+      "name": "package_config",
+      "version": "2.2.0",
+      "dependencies": [
+        "path"
+      ]
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "dependencies": []
     },
     {
       "name": "glob",
@@ -488,10 +622,12 @@
       ]
     },
     {
-      "name": "crypto",
-      "version": "3.0.7",
+      "name": "record_use",
+      "version": "0.6.0",
       "dependencies": [
-        "typed_data"
+        "collection",
+        "meta",
+        "pub_semver"
       ]
     },
     {

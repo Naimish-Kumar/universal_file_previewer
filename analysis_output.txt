@@ -1,0 +1,29 @@
+Analyzing universal_file_previewer...                           
+
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/src/renderers/media_renderers.dart:187:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/src/renderers/media_renderers.dart:190:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/src/renderers/media_renderers.dart:212:37 • deprecated_member_use
+  error • Undefined name 'kIsWeb' • lib/src/renderers/media_renderers.dart:318:9 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/src/renderers/media_renderers.dart:378:54 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/src/renderers/media_renderers.dart:392:45 • deprecated_member_use
+  error • The getter 'jpg' isn't defined for the type 'PdfPageFormat' • lib/src/renderers/pdf_renderer.dart:73:40 • undefined_getter
+  error • The named parameter 'quality' isn't defined • lib/src/renderers/pdf_renderer.dart:74:9 • undefined_named_parameter
+   info • Don't invoke 'print' in production code • real_samples/sample.dart:1:16 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_final.dart:4:3 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_final.dart:12:7 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_final.dart:14:7 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_final.dart:17:5 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_missing.dart:4:3 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_missing.dart:12:7 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_missing.dart:14:7 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_missing.dart:17:5 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_real_samples.dart:4:3 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_real_samples.dart:12:7 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_real_samples.dart:14:7 • avoid_print
+   info • Don't invoke 'print' in production code • scratch/download_real_samples.dart:17:5 • avoid_print
+   info • Don't invoke 'print' in production code • test/final_real_file_check_test.dart:13:11 • avoid_print
+   info • Don't invoke 'print' in production code • test/real_file_check_test.dart:13:11 • avoid_print
+   info • Don't invoke 'print' in production code • test/remaining_real_file_check_test.dart:13:11 • avoid_print
+   info • 'dart:html' is deprecated and shouldn't be used. Use package:web and dart:js_interop instead • web/universal_file_previewer_web.dart:2:1 • deprecated_member_use
+
+25 issues found. (ran in 1.4s)

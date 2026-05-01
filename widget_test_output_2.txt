@@ -1,0 +1,109 @@
+00:00 +0: loading /Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: FilePreviewWidget builds PdfRenderer for .pdf files
+DEBUG: Widgets in tree for PDF: [View, RawView, _RawViewInternal, _ViewScope, _PipelineOwnerScope, _MediaQueryFromView, MediaQuery, FocusTraversalGroup, Focus, _FocusInheritedScope, _FocusScopeWithExternalFocusNode, _FocusInheritedScope, MaterialApp, ScrollConfiguration, HeroControllerScope, WidgetsApp, RootRestorationScope, UnmanagedRestorationScope, RestorationScope, UnmanagedRestorationScope, SharedAppData, _SharedAppModel, NotificationListener<NavigationNotification>, Shortcuts, Focus, _FocusInheritedScope, Semantics, DefaultTextEditingShortcuts, Shortcuts, Focus, _FocusInheritedScope, Semantics, Actions, _ActionsScope, FocusTraversalGroup, Focus, _FocusInheritedScope, TapRegionSurface, ShortcutRegistrar, _ShortcutRegistrarScope, Shortcuts, Focus, _FocusInheritedScope, Semantics, ListenableBuilder, Localizations, Semantics, _LocalizationsScope, Directionality, Title, Focus, _FocusInheritedScope, Semantics, CheckedModeBanner, Banner, CustomPaint, ValueListenableBuilder<bool>, DefaultTextStyle, Builder, AnimatedTheme, Theme, _InheritedTheme, CupertinoTheme, InheritedCupertinoTheme, IconTheme, IconTheme, DefaultSelectionStyle, ScaffoldMessenger, _ScaffoldMessengerScope, DefaultSelectionStyle, FocusScope, Semantics, _FocusInheritedScope, Navigator, HeroControllerScope, NotificationListener<NavigationNotification>, Listener, AbsorbPointer, FocusTraversalGroup, Focus, _FocusInheritedScope, Focus, _FocusInheritedScope, UnmanagedRestorationScope, Overlay, _Theater, _OverlayEntryWidget, TickerMode, _EffectiveTickerMode, _RenderTheaterMarker, Builder, IgnorePointer, ModalBarrier, BlockSemantics, ExcludeSemantics, _ModalBarrierGestureDetector, RawGestureDetector, _GestureSemantics, Listener, Semantics, MouseRegion, ConstrainedBox, _OverlayEntryWidget, TickerMode, _EffectiveTickerMode, _RenderTheaterMarker, Builder, Semantics, _ModalScope<dynamic>, AnimatedBuilder, RestorationScope, UnmanagedRestorationScope, _ModalScopeStatus, Offstage, PageStorage, Builder, Actions, _ActionsScope, PrimaryScrollController, _FocusScopeWithExternalFocusNode, Semantics, _FocusInheritedScope, RepaintBoundary, ListenableBuilder, _PageTransitionsThemeTransitions<dynamic>, _PredictiveBackGestureDetector, _FadeForwardsPageTransition, DualTransitionBuilder, FadeTransition, SlideTransition, FractionalTranslation, IgnorePointer, FadeTransition, SlideTransition, FractionalTranslation, ColoredBox, DualTransitionBuilder, FadeTransition, SlideTransition, FractionalTranslation, FadeTransition, SlideTransition, FractionalTranslation, ListenableBuilder, IgnorePointer, RepaintBoundary, Builder, Semantics, Scaffold, _ScaffoldScope, ScrollNotificationObserver, NotificationListener<ScrollMetricsNotification>, NotificationListener<ScrollNotification>, _ScrollNotificationObserverScope, Material, AnimatedPhysicalModel, PhysicalModel, NotificationListener<LayoutChangedNotification>, _InkFeatures, AnimatedDefaultTextStyle, DefaultTextStyle, AnimatedBuilder, Actions, _ActionsScope, CustomMultiChildLayout, LayoutId, MediaQuery, _BodyBuilder, KeyedSubtree, FilePreviewWidget, Center, CircularProgressIndicator, Builder, AnimatedBuilder, Semantics, ConstrainedBox, CustomPaint, LayoutId, MediaQuery, _FloatingActionButtonTransition, Stack, ScaleTransition, Transform, RotationTransition, Transform]
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "PdfRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:48:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 48
+The test description was:
+  FilePreviewWidget builds PdfRenderer for .pdf files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -1: FilePreviewWidget builds PdfRenderer for .pdf files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds PdfRenderer for .pdf files
+  
+00:00 +0 -1: FilePreviewWidget builds VideoRenderer for .mp4 files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "VideoRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:64:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 64
+The test description was:
+  FilePreviewWidget builds VideoRenderer for .mp4 files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -2: FilePreviewWidget builds VideoRenderer for .mp4 files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds VideoRenderer for .mp4 files
+  
+00:00 +0 -2: FilePreviewWidget builds AudioRenderer for .mp3 files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "AudioRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:80:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 80
+The test description was:
+  FilePreviewWidget builds AudioRenderer for .mp3 files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -3: FilePreviewWidget builds AudioRenderer for .mp3 files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds AudioRenderer for .mp3 files
+  
+00:00 +0 -3: FilePreviewWidget builds CodeRenderer for .dart files
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TypeWidgetFinder:<Found 0 widgets with type "CodeRenderer": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart:96:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/naimish/projects/learning-projects/universal_file_previewer/test/widget_renderer_test.dart line 96
+The test description was:
+  FilePreviewWidget builds CodeRenderer for .dart files
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:00 +0 -4: FilePreviewWidget builds CodeRenderer for .dart files [E]
+  Test failed. See exception logs above.
+  The test description was: FilePreviewWidget builds CodeRenderer for .dart files
+  
+00:00 +0 -4: (tearDownAll)
+00:00 +0 -4: Some tests failed.

@@ -1,12 +1,11 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:native_pdf_renderer/native_pdf_renderer.dart' as renderer;
 import '../core/preview_config.dart';
 import '../core/preview_controller.dart';
-import '../platform/platform_channel.dart';
 
-/// Renders PDF files page-by-page using the native platform channel.
-/// Android uses PdfRenderer API. iOS uses PDFKit / CGPDFDocument.
+/// Renders PDF files page-by-page using the native_pdf_renderer plugin.
+/// Supports Android, iOS, macOS, Windows, and Web.
 class PdfRenderer extends StatefulWidget {
   final File file;
   final PreviewConfig config;
@@ -24,9 +23,10 @@ class PdfRenderer extends StatefulWidget {
 }
 
 class _PdfRendererState extends State<PdfRenderer> {
+  renderer.PdfDocument? _document;
   int _totalPages = 0;
   int _currentPage = 0;
-  final Map<int, Uint8List> _pageCache = {};
+  final Map<int, renderer.PdfPageImage> _pageCache = {};
   bool _loading = true;
   String? _error;
   late PageController _pageController;
@@ -40,17 +40,15 @@ class _PdfRendererState extends State<PdfRenderer> {
 
   Future<void> _init() async {
     try {
-      final count =
-          await FilePreviewerChannel.getPdfPageCount(widget.file.path);
+      final doc = await renderer.PdfDocument.openFile(widget.file.path);
       if (mounted) {
         setState(() {
-          _totalPages = count;
+          _document = doc;
+          _totalPages = doc.pagesCount;
           _loading = false;
         });
-        widget.controller?.setTotalPages(count);
+        widget.controller?.setTotalPages(doc.pagesCount);
         widget.controller?.setLoading(false);
-        // Preload first page
-        _loadPage(0);
       }
     } catch (e) {
       if (mounted) {
@@ -63,26 +61,31 @@ class _PdfRendererState extends State<PdfRenderer> {
     }
   }
 
-  Future<void> _loadPage(int page) async {
-    if (_pageCache.containsKey(page)) return;
-    final width =
-        (MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio)
-            .toInt();
+  Future<renderer.PdfPageImage?> _loadPage(int pageIndex) async {
+    if (_pageCache.containsKey(pageIndex)) return _pageCache[pageIndex];
+    if (_document == null) return null;
+
     try {
-      final bytes = await FilePreviewerChannel.renderPdfPage(
-        path: widget.file.path,
-        page: page,
-        width: width,
+      final page = await _document!.getPage(pageIndex + 1); // 1-indexed
+      final pageImage = await page.render(
+        width: page.width * 2, // higher quality
+        height: page.height * 2,
+        format: renderer.PdfPageFormat.JPEG,
       );
-      if (bytes != null && mounted) {
-        setState(() => _pageCache[page] = bytes);
+      await page.close();
+      if (pageImage != null && mounted) {
+        setState(() => _pageCache[pageIndex] = pageImage);
       }
-    } catch (_) {}
+      return pageImage;
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _document?.close();
     super.dispose();
   }
 
@@ -98,7 +101,7 @@ class _PdfRendererState extends State<PdfRenderer> {
             const SizedBox(height: 12),
             Text('Failed to load PDF', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
-            Text(_error!, style: const TextStyle(color: Colors.grey)),
+            Text(_error!, style: const TextStyle(color: Colors.grey), textAlign: TextAlign.center),
           ],
         ),
       );
@@ -114,19 +117,27 @@ class _PdfRendererState extends State<PdfRenderer> {
             onPageChanged: (page) {
               setState(() => _currentPage = page);
               widget.controller?.goToPage(page);
-              _loadPage(page);
-              if (page + 1 < _totalPages) _loadPage(page + 1);
             },
             itemBuilder: (ctx, page) {
-              final bytes = _pageCache[page];
-              if (bytes == null) {
-                _loadPage(page);
-                return const Center(child: CircularProgressIndicator());
-              }
-              return InteractiveViewer(
-                child: Center(
-                  child: Image.memory(bytes, fit: BoxFit.contain),
-                ),
+              return FutureBuilder<renderer.PdfPageImage?>(
+                future: _loadPage(page),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return InteractiveViewer(
+                      minScale: 1.0,
+                      maxScale: 4.0,
+                      child: Center(
+                        child: Image.memory(
+                          snapshot.data!.bytes,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error loading page: ${snapshot.error}'));
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
               );
             },
           ),
